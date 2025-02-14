@@ -1,19 +1,33 @@
-import pytest
-from src.models.sqlite.settings.connection import db_connection_handler
+from unittest import mock
+from mock_alchemy.mocking import UnifiedAlchemyMagicMock
+from ..entities.pets import PetsTable
 from .pets_repository import PetsRepository
 
-db_connection_handler.connect_to_db()
+
+class MockConnection:
+    def __init__(self) -> None:
+        self.session = UnifiedAlchemyMagicMock(
+            data=[
+                (
+                    [mock.call.query(PetsTable)],  # query
+                    [
+                        PetsTable(name="dog", type="dog"),
+                        PetsTable(name="cat", type="cat"),
+                    ],  # resultado
+                )
+            ]
+        )
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass
 
 
-@pytest.mark.skip(reason="Interação com o banco")
 def test_list_pets():
-    repo = PetsRepository(db_connection_handler)
+    mock_connection = MockConnection()
+    repo = PetsRepository(mock_connection)
     response = repo.list_pets()
-    print(response)
 
-
-@pytest.mark.skip(reason="Interação com o banco")
-def test_delete_pet():
-    name = "belinha"
-    repo = PetsRepository(db_connection_handler)
-    repo.delete_pets(name)
+    assert response[0].name == "dog"
