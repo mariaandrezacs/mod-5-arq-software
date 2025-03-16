@@ -1,9 +1,9 @@
 from ..models.sqlite.entities.people import PeopleTable
 from ..models.sqlite.interfaces.people_repository import PeopleRepositoryInterface
-from .interfaces.person_finder_controller import PersonCreatorControllerInterface
+from .interfaces.person_finder_controller import PersonFinderControllerInterface
 
 
-class PersonCreatorController(PersonCreatorControllerInterface):
+class PersonFinderController(PersonFinderControllerInterface):
     def __init__(self, people_repository: PeopleRepositoryInterface) -> None:
         self.__people_repository = people_repository
 

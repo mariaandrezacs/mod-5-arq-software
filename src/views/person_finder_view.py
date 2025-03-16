@@ -1,5 +1,5 @@
 from src.controllers.interfaces.person_finder_controller import (
-    PersonCreatorControllerInterface,
+    PersonFinderControllerInterface,
 )
 
 from .http_types.http_request import HttpRequest
@@ -8,7 +8,7 @@ from .interfaces.view_interface import ViewInterface
 
 
 class PersonFinderView(ViewInterface):
-    def __init__(self, controller: PersonCreatorControllerInterface) -> None:
+    def __init__(self, controller: PersonFinderControllerInterface) -> None:
         self.__controller = controller
 
     def handle(self, http_request: HttpRequest) -> HttpResponse:

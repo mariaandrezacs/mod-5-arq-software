@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class PersonCreatorControllerInterface(ABC):
+class PersonFinderControllerInterface(ABC):
     @abstractmethod
     def find(self, person_id: int) -> dict:
         pass
